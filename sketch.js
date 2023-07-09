@@ -5,8 +5,8 @@ let diametro = 15;
 let raio = diametro / 2;
 
 //velocidade da bolinha
-let velocidadeXBolinha = 6;
-let velocidadeYBolinha = 6;
+let velocidadeXBolinha = 5;
+let velocidadeYBolinha = 5;
 
 //variáveis da raquete
 let xRaquete = 5;
@@ -33,11 +33,12 @@ function draw() {
   movimentaBolinha();
   verificaColisaoBorda();
   mostraRaquete(xRaquete, yRaquete);
-  mostraRaquete(xRaqueteOponente, yRaqueteOponente);
   movimentaMinhaRaquete();
+  verificaColisaoRaqueteBiblioteca(xRaquete, yRaquete);
+  mostraRaquete(xRaqueteOponente, yRaqueteOponente);
   movimentaRaqueteOponente();
+  verificaColisaoRaqueteBiblioteca(xRaqueteOponente, yRaqueteOponente)
   //verificaColisaoRaquete();
-  colisaoMinhaRaqueteBiblioteca();
 }
 
 function mostraBolinha() {
@@ -84,9 +85,11 @@ function verificaColisaoRaquete() {
   }
 }
 
-function colisaoMinhaRaqueteBiblioteca(){
-  colidiu = collideRectCircle(xRaquete, yRaquete, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
+function verificaColisaoRaqueteBiblioteca(x, y){
+  colidiu = collideRectCircle(x, y, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
   if (colidiu){
     velocidadeXBolinha *= -1;
   }
 }
+
+
