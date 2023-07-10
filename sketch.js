@@ -51,6 +51,7 @@ function draw() {
   mostraBolinha();
   movimentaBolinha();
   verificaColisaoBorda();
+  bolinhaNaoFicaPresa();
   mostraRaquete(xRaquete, yRaquete);
   movimentaMinhaRaquete();
   verificaColisaoRaqueteBiblioteca(xRaquete, yRaquete);
@@ -152,5 +153,12 @@ function calculaChanceDeErrar(){
     if (chanceDeErrar <= 35){
       chanceDeErrar = 35
     }
+  }
+}
+
+function bolinhaNaoFicaPresa(){
+  if (xBolinha + raio < 0){
+    console.log('bolinha ficou presa');
+    xBolinha = 300
   }
 }
