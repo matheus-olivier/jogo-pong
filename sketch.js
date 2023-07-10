@@ -5,8 +5,8 @@ let diametro = 15;
 let raio = diametro / 2;
 
 //velocidade da bolinha
-let velocidadeXBolinha = 6;
-let velocidadeYBolinha = 6;
+let velocidadeXBolinha = 5;
+let velocidadeYBolinha = 5;
 
 //variáveis da raquete
 let xRaquete = 5;
@@ -23,21 +23,28 @@ let velocidadeYOponente;
 
 let colidiu = false; 
 
+//placar do jogo
+let meusPontos = 0;
+let pontosDoOponente = 0;
+
 function setup() {
   createCanvas(600, 400);
 }
 
 function draw() {
   background(0);
+  incluiPlacar();
+  marcaPonto();
   mostraBolinha();
   movimentaBolinha();
   verificaColisaoBorda();
   mostraRaquete(xRaquete, yRaquete);
-  mostraRaquete(xRaqueteOponente, yRaqueteOponente);
   movimentaMinhaRaquete();
+  verificaColisaoRaqueteBiblioteca(xRaquete, yRaquete);
+  mostraRaquete(xRaqueteOponente, yRaqueteOponente);
   movimentaRaqueteOponente();
+  verificaColisaoRaqueteBiblioteca(xRaqueteOponente, yRaqueteOponente)
   //verificaColisaoRaquete();
-  colisaoMinhaRaqueteBiblioteca();
 }
 
 function mostraBolinha() {
@@ -69,11 +76,14 @@ function movimentaMinhaRaquete() {
   if (keyIsDown(DOWN_ARROW)) {
     yRaquete += 10;
   }
+  // constrain limita a movimentacao da raquete para que ela nao ultrapasse as bordas
+  yRaquete = constrain(yRaquete, 0, 310);
 }
 
 function movimentaRaqueteOponente(){
   velocidadeYOponente = yBolinha - yRaqueteOponente - raqueteComprimento / 2 - 30;
   yRaqueteOponente += velocidadeYOponente
+  yRaqueteOponente = constrain(yRaqueteOponente, 0, 310);
 }
 
 function verificaColisaoRaquete() {
@@ -84,9 +94,24 @@ function verificaColisaoRaquete() {
   }
 }
 
-function colisaoMinhaRaqueteBiblioteca(){
-  colidiu = collideRectCircle(xRaquete, yRaquete, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
+function verificaColisaoRaqueteBiblioteca(x, y){
+  colidiu = collideRectCircle(x, y, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
   if (colidiu){
     velocidadeXBolinha *= -1;
+  }
+}
+
+function incluiPlacar(){
+  fill(255)
+  text(meusPontos, 278, 26);
+  text(pontosDoOponente, 321, 26);
+}
+
+function marcaPonto(){
+  if (xBolinha > 590){
+    meusPontos += 1;
+  }
+  if (xBolinha < 10){
+    pontosDoOponente += 1;
   }
 }
